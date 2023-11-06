@@ -1,0 +1,132 @@
+----Half_Adder code----- 
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity HA is
+    Port ( a : in STD_LOGIC;
+           b : in STD_LOGIC;
+           s : out STD_LOGIC;
+           c : out STD_LOGIC);
+end HA;
+
+architecture Dataflow of HA is
+begin
+s<= a xor b;
+c<= a and b;
+end Dataflow;
+
+-------or gate code----------
+
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+-- Entity declaration
+
+entity or_gate is
+
+    port(A : in std_logic;      -- OR gate input
+         B : in std_logic;      -- OR gate input
+         Y : out std_logic);    -- OR gate output
+
+end or_gate;
+
+-- Dataflow Modelling Style
+-- Architecture definition
+
+architecture orLogic of or_gate is
+
+ begin
+    
+    Y <= A OR B;
+
+end orLogic;
+
+--------Full adder code ------------
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity Full_Adder is
+    Port ( a : in STD_LOGIC;
+           b : in STD_LOGIC;
+           cin : in STD_LOGIC;
+           s : out STD_LOGIC;
+           cout : out STD_LOGIC);
+end Full_Adder;
+
+architecture Structural of Full_Adder is
+component HA is
+    Port ( a : in STD_LOGIC;
+           b : in STD_LOGIC;
+           s : out STD_LOGIC;
+           c : out STD_LOGIC);
+end component;
+
+component or_gate is
+    Port ( A : in STD_LOGIC;
+           B : in STD_LOGIC;
+           Y : out STD_LOGIC);
+end component;
+signal temp1,temp2, temp3 : std_logic;
+begin	
+u1: HA port map(a, b, temp1, temp2);
+u2: HA port map(temp1, cin, s, temp3);
+u3: or_gate port map(temp2, temp3, cout);
+end Structural;
+
+----Full adder tb------
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+entity FULL_TB is
+--  Port ( );
+end FULL_TB;
+
+architecture Behavioral of FULL_TB is
+component Full_Adder is
+    Port ( a : in STD_LOGIC;
+           b : in STD_LOGIC;
+           cin : in STD_LOGIC;
+           s : out STD_LOGIC;
+           cout : out STD_LOGIC);
+end component;
+signal a, b, cin, s, cout : std_logic;
+
+begin
+u1 : Full_Adder port map(a, b, cin, s, cout);
+process
+begin
+--stimuli generation
+a<='0';
+b<='0';
+cin<='0';
+wait for 100ns;
+a<='0';
+b<='0';
+cin<='1';
+wait for 100ns;
+a<='0';
+b<='1';
+cin<='0';
+wait for 100ns;
+a<='0';
+b<='1';
+cin<='1';
+wait for 100ns;
+a<='1';
+b<='0';
+cin<='0';
+wait for 100ns;
+a<='1';
+b<='0';
+cin<='1';
+wait for 100ns;
+a<='1';
+b<='1';
+cin<='0';
+wait for 100ns;
+a<='1';
+b<='1';
+cin<='1';
+wait for 100ns;
+end process;
+end Behavioral;
