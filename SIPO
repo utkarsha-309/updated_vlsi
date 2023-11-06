@@ -27,3 +27,38 @@ begin
         end process;
         clk_slw<=counter(1);
 end Behavioral;
+
+---Sipo Tb---
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity sipo_tb is
+--  Port ( );
+end sipo_tb;
+
+architecture Behavioral of sipo_tb is
+
+component sipo is
+    Port ( clk : in  STD_LOGIC;
+           slow_clk: inout STD_LOGIC;
+           in2 : in  STD_LOGIC;
+           out2 : inout  STD_LOGIC_VECTOR (3 downto 0));
+end component;
+signal clk, in2,slow_clk: std_logic;
+signal out2 : std_logic_vector( 3 downto 0);
+
+begin
+u1: sipo port map ( clk,slow_clk,in2,out2);
+
+process
+begin
+clk<= '0';
+wait for 10 ns;
+clk<= '1';
+wait for 10 ns ;
+end process;
+ 
+in2<= '1', '0' after 100 ns;
+
+end Behavioral;
